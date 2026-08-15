@@ -1,4 +1,4 @@
-const API_URL = localStorage.getItem("quanta_api_url") || "YOUR_WORKER_URL";
+const API_URL = "https://quanta-quiz-api.ofcnitin.workers.dev";
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const state={mode:"topic",difficulty:"Easy",count:10,pdfText:"",source:"",quiz:null,answers:[],current:0};
