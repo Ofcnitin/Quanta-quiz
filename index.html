@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07080a">
+<meta name="description" content="Quanta — premium AI quiz generator">
+<title>Quanta — AI Quiz Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="ambient a"></div><div class="ambient b"></div><div class="noise"></div>
+<header class="topbar">
+  <a class="brand" href="#"><span class="mark"><i></i><i></i><i></i></span><span>quanta</span></a>
+  <div class="top-actions"><button class="circle" id="historyBtn" aria-label="History">⌘</button><button class="avatar">Q</button></div>
+</header>
+
+<main>
+<section class="hero" id="homeView">
+  <div class="eyebrow"><span class="pulse"></span>AI QUIZ STUDIO</div>
+  <h1>Turn knowledge into<br><em>something you can test.</em></h1>
+  <p class="hero-copy">Generate intelligent quizzes from any topic or your own PDF. Fast, grounded, and ready to play.</p>
+
+  <div class="mode-switch glass">
+    <button class="mode active" data-mode="topic">Topic</button>
+    <button class="mode" data-mode="pdf">PDF</button><span class="glider"></span>
+  </div>
+
+  <div class="composer glass">
+    <div class="composer-head"><span class="source-icon">✦</span><span id="sourceLabel">What do you want to learn?</span><span class="live-dot">●</span></div>
+    <div id="topicPane">
+      <textarea id="topicInput" maxlength="200" rows="2" placeholder="e.g. Python decorators, French Revolution, quantum mechanics..."></textarea>
+      <div class="meta"><span>Be specific for better questions</span><span id="topicCount">0 / 200</span></div>
+    </div>
+    <div id="pdfPane" class="hidden">
+      <label class="dropzone" id="dropzone" for="pdfInput">
+        <input id="pdfInput" type="file" accept="application/pdf,.pdf" hidden>
+        <div class="upload-orb">↑</div><strong id="fileName">Drop a PDF here</strong>
+        <span id="fileMeta">or tap to browse · max 20 MB · ~50 pages</span>
+      </label>
+    </div>
+    <div class="controls-row">
+      <div class="control"><span class="label">Difficulty</span><div class="segmented">
+        <button class="seg active" data-value="Easy">Easy</button><button class="seg" data-value="Medium">Medium</button><button class="seg" data-value="Hard">Hard</button>
+      </div></div>
+      <div class="control compact"><span class="label">Questions</span><select id="questionCount"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>25</option></select></div>
+    </div>
+    <button class="generate-btn" id="generateBtn"><span>Generate quiz</span><b>↗</b></button>
+    <div class="security-note">✦ Your content stays in your session · AI requests use a secure server proxy</div>
+  </div>
+
+  <div class="feature-strip">
+    <div><span>01</span><strong>Fast generation</strong><small>Groq-powered inference</small></div>
+    <div><span>02</span><strong>Grounded PDFs</strong><small>Questions from your material</small></div>
+    <div><span>03</span><strong>Instant feedback</strong><small>Score & explanations</small></div>
+  </div>
+</section>
+
+<section class="quiz-view hidden" id="quizView">
+  <div class="quiz-top">
+    <button class="back-btn glass" id="backBtn">← <span>New quiz</span></button>
+    <div class="quiz-title"><span class="eyebrow small">QUIZ IN PROGRESS</span><h2 id="quizTitle">Quiz</h2></div>
+    <div class="progress glass"><span id="progressText">1 / 10</span><div><i id="progressBar"></i></div></div>
+  </div>
+  <div class="quiz-layout">
+    <aside class="rail glass" id="questionRail"></aside>
+    <article class="question-card glass">
+      <div class="question-kicker"><span id="questionNumber">QUESTION 01</span><span id="difficultyBadge">EASY</span></div>
+      <h3 id="questionText">Loading…</h3><div class="options" id="options"></div>
+      <div class="question-footer"><span>Choose one answer</span><button class="next-btn" id="nextBtn">Next →</button></div>
+    </article>
+  </div>
+</section>
+
+<section class="results-view hidden" id="resultsView">
+  <article class="results-card glass">
+    <div class="score-ring"><strong id="scoreNumber">0%</strong><span>score</span></div>
+    <div class="eyebrow small">QUIZ COMPLETE</div><h2 id="resultHeading">Nice work.</h2><p id="resultSub">Here's how you did.</p>
+    <div class="stats"><div><b id="correctStat">0</b><span>Correct</span></div><div><b id="wrongStat">0</b><span>Incorrect</span></div><div><b id="totalStat">0</b><span>Total</span></div></div>
+    <div class="result-actions"><button class="secondary glass" id="reviewBtn">Review answers</button><button class="primary" id="retakeBtn">Retake quiz ↗</button></div>
+  </article>
+  <div class="review-list hidden" id="reviewList"></div>
+</section>
+</main>
+
+<div class="toast" id="toast"></div>
+<div class="loading hidden" id="loadingOverlay"><div class="loader-card glass"><div class="loader-ring"></div><div class="eyebrow">BUILDING YOUR QUIZ</div><h3 id="loadingTitle">Thinking through the topic…</h3><p>Creating questions, balancing distractors, and checking the structure.</p><div class="track"><i></i></div></div></div>
+<script src="app.js" type="module"></script>
+</body>
+</html>
